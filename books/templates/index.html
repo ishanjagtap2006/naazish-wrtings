@@ -1,0 +1,273 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Naazish Writings - Home</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; font-family: 'Inter', sans-serif;
+      background: #fbf7f0; color: #6b4c3b; line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    a { color: #a17c69; text-decoration: none; transition: color 0.3s ease; }
+    a:hover, a:focus { color: #8a5f46; outline: none; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    header {
+      background-color: #fff8f2;
+      box-shadow: 0 2px 8px rgba(161,124,105,0.12);
+      position: sticky; top: 0; z-index: 1000;
+    }
+    .header-inner {
+      display: flex; align-items: center;
+      justify-content: space-between; height: 72px;
+    }
+    .logo {
+      font-family: cursive; font-weight: 700;
+      font-size: 1.75rem; color: #6b4c3b;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .logo svg { width: 28px; height: 28px; stroke-width: 2.5; fill: none; stroke: #6b4c3b; }
+    nav { display: flex; gap: 36px; align-items: center; }
+    nav a {
+      font-weight: 600; font-size: 1rem; padding: 8px 0;
+      position: relative; cursor: pointer;
+    }
+    nav a::after {
+      content: ''; height: 2px; background: transparent;
+      position: absolute; bottom: 0; left: 0; right: 0;
+      transition: background 0.3s ease; border-radius: 2px;
+    }
+    nav a:hover::after { background: #bfaa91; }
+    .search-bar {
+      display: flex; align-items: center;
+    }
+    .search-input {
+      padding: 8px; border: 1px solid #dabfa9;
+      border-radius: 16px; font-size: 1rem;
+    }
+    .search-button {
+      padding: 8px 16px; margin-left: 8px;
+      border: none; background-color: #cbb49e;
+      color: #544032; border-radius: 16px;
+      cursor: pointer; font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+    .search-button:hover { background-color: #b49e88; }
+    .hero {
+      background: linear-gradient(135deg, #e9d6c9, #d8c3aa);
+      color: #544032; padding: 96px 24px 120px;
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .hero h1 {
+      font-size: 3.5rem; max-width: 700px;
+      margin-bottom: 24px; font-weight: 700;
+      text-shadow: 0 1px 3px rgba(255,255,255,0.6);
+    }
+    .hero p {
+      font-size: 1.25rem; max-width: 600px;
+      margin-bottom: 40px; font-weight: 500;
+      line-height: 1.5;
+    }
+    .btn-hero {
+      background-color: #cbb49e; color: #544032;
+      font-weight: 700; padding: 18px 48px;
+      font-size: 1.125rem; border: none;
+      border-radius: 16px; cursor: pointer;
+    }
+    .btn-hero:hover {
+      background-color: #b49e88;
+      transform: translateY(-2px);
+    }
+    section.featured-books {
+      padding: 72px 24px 96px; background-color: #fff8f2;
+      border-radius: 16px; box-shadow: 0 8px 24px rgba(171,139,107,0.1);
+      margin: 48px 24px;
+    }
+    .section-title {
+      font-weight: 700; font-size: 2.75rem;
+      text-align: center; margin-bottom: 56px;
+      color: #6b4c3b;
+    }
+    .books-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 36px; max-width: 1100px; margin: 0 auto;
+    }
+    .book-card {
+      background-color: #f9f4ee; border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(171,139,107,0.15);
+      display: flex; flex-direction: column; overflow: hidden;
+      transition: transform 0.3s ease; border: 1px solid #dabfa9;
+    }
+    .book-card:hover { transform: translateY(-8px); }
+    .book-cover {
+      width: 100%; aspect-ratio: 3 / 4; object-fit: cover;
+    }
+    .book-info {
+      padding: 24px; flex-grow: 1;
+      display: flex; flex-direction: column;
+    }
+    .book-title { font-weight: 700; font-size: 1.3rem; margin-bottom: 8px; }
+    .book-author {
+      font-weight: 600; font-style: italic;
+      margin-bottom: 16px; color: #a1886e;
+    }
+    .book-description {
+      font-size: 0.95rem; color: #826a53;
+      margin-bottom: 16px;
+    }
+    .book-cta {
+      font-weight: 700; color: #b4997c;
+      text-align: right;
+    }
+    footer {
+      background-color: #a17c69; color: #f7efe7;
+      padding: 56px 24px;
+    }
+    .footer-container {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; flex-direction: column; gap: 28px;
+    }
+    .footer-nav {
+      display: flex; justify-content: center; gap: 36px;
+    }
+    .footer-nav a { color: #f7efe7; font-weight: 600; }
+    .footer-bottom {
+      text-align: center; font-size: 0.9rem; color: #dccdbf;
+    }
+    .modal {
+      display: none; position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%; background: rgba(0,0,0,0.5);
+      justify-content: center; align-items: center; z-index: 2000;
+    }
+    .modal-content {
+      background: #fff8f2; padding: 32px;
+      border-radius: 12px; max-width: 500px; width: 100%;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    }
+    .modal-content h2 { margin-top: 0; font-size: 1.5rem; margin-bottom: 16px; }
+    .modal-content input, .modal-content textarea {
+      width: 100%; padding: 10px; margin-bottom: 16px;
+      border: 1px solid #dabfa9; border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+    }
+    .modal-content button {
+      background-color: #cbb49e; border: none;
+      padding: 10px 20px; border-radius: 10px;
+      color: #fff; font-weight: bold; cursor: pointer;
+    }
+    .modal-content button:hover { background-color: #b49e88; }
+    #about, #contact {
+      padding: 48px 24px; background: #f2eae1;
+      margin: 48px 24px; border-radius: 12px;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="container header-inner">
+    <a href="#" class="logo">
+      <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2.5" fill="none" stroke="#6b4c3b" viewBox="0 0 24 24"><path d="M2 7v14a2 2 0 002 2h16a2 2 0 002-2V7"/><path d="M16 3H8a4 4 0 00-4 4v3a4 4 0 004 4h8a4 4 0 004-4V7a4 4 0 00-4-4z"/></svg>
+      Naazish Writings 
+    </a>
+    <nav>
+      <a href="#">Home</a>
+      <a onclick="document.getElementById('authorForm').style.display='flex'">Become an Author</a>
+      <form method="get" action="" class="search-bar">
+        <input type="text" name="q" class="search-input" placeholder="Search books..." value="{{ query|default:'' }}" />
+        <button type="submit" class="search-button">Search</button>
+      </form>
+      <a onclick="document.getElementById('about').scrollIntoView({behavior: 'smooth'})">About</a>
+      <a onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <h1>Words That Whisper To The Soul</h1>
+    <p>"At Naazish Writings, every word is a quiet whisper to the soul - healing, inspiring, and awakening what lies within."</p>
+  </section>
+
+  <section class="featured-books">
+    <h2 class="section-title">Featured Books</h2>
+    
+    {% if books %}
+      <div class="books-grid">
+        {% for book in books %}
+          <article class="book-card">
+            <img class="book-cover" src="{{ book.cover_image.url }}" alt="{{ book.title }}" />
+            <div class="book-info">
+              <h3 class="book-title">{{ book.title }}</h3>
+              <p class="book-author">{{ book.author }}</p>
+              <p class="book-description">{{ book.description|truncatewords:20 }}</p>
+              <a href="{{ book.pdf_file.url }}" class="book-cta" download>Download &rarr;</a>
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p style="text-align: center; font-size: 1.2rem; color: #a17c69;">
+        No books found for "{{ query }}"
+      </p>
+    {% endif %}
+  </section>
+
+  <section id="about">
+    <h2>About Naazish Writings</h2>
+    <p>Naazish Writings is a creative space for emotional healing through literature. It brings soulful stories, reflections, and poems that comfort, inspire, and transform readers. Whether you’re here to read or write, welcome to a home of heartfelt words.</p>
+  </section>
+
+  <section id="contact">
+    <h2>Connect With Us</h2>
+    <p>Follow us on Instagram: <a href="https://instagram.com/naazish_writings" target="_blank">@naazish_writings</a></p>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-container">
+    <nav class="footer-nav">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Help</a>
+      <a href="#">Social Media</a>
+    </nav>
+    <p class="footer-bottom">&copy; 2025 Naazish Writings. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- Author Form Modal -->
+<div class="modal" id="authorForm">
+  <div class="modal-content">
+    <h2>Become an Author</h2>
+    {% if success_message %}
+      <p style="color: green;">{{ success_message }}</p>
+    {% endif %}
+    <form method="POST" action="#authorForm">
+      {% csrf_token %}
+      <input type="text" name="name" placeholder="Your Name" required />
+      <input type="email" name="email" placeholder="Your Email" required />
+      <textarea name="bio" placeholder="Short Bio" rows="3" required></textarea>
+      <textarea name="past_works" placeholder="Your Past Works or Writing Links" rows="3"></textarea>
+      <textarea name="reason_to_join" placeholder="Why do you want to join?" rows="3" required></textarea>
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  window.onclick = function(e) {
+    const modal = document.getElementById('authorForm');
+    if (e.target == modal) {
+      modal.style.display = "none";
+    }
+  };
+</script>
+
+</body>
+</html>

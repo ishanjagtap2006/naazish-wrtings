@@ -1,0 +1,1 @@
+web: gunicorn naazish_project.wsgi
